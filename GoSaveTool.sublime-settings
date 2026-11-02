@@ -1,0 +1,4 @@
+{
+    // Show the word and character count of the selection, or of the file, in the status bar
+    "status_bar_count": true
+}

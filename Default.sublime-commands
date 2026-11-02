@@ -1,0 +1,17 @@
+[
+    { "caption": "GoSaveTool: Word Count and Limits", "command": "gosavetool_count" },
+    { "caption": "GoSaveTool: Title Case", "command": "gosavetool_case", "args": { "op": "title" } },
+    { "caption": "GoSaveTool: Sentence case", "command": "gosavetool_case", "args": { "op": "sentence" } },
+    { "caption": "GoSaveTool: UPPERCASE", "command": "gosavetool_case", "args": { "op": "upper" } },
+    { "caption": "GoSaveTool: lowercase", "command": "gosavetool_case", "args": { "op": "lower" } },
+    { "caption": "GoSaveTool: slug", "command": "gosavetool_case", "args": { "op": "slug" } },
+    { "caption": "GoSaveTool: camelCase", "command": "gosavetool_case", "args": { "op": "camel" } },
+    { "caption": "GoSaveTool: snake_case", "command": "gosavetool_case", "args": { "op": "snake" } },
+    { "caption": "GoSaveTool: kebab-case", "command": "gosavetool_case", "args": { "op": "kebab" } },
+    { "caption": "GoSaveTool: Clean Spaces", "command": "gosavetool_case", "args": { "op": "clean" } },
+    { "caption": "GoSaveTool: Subtitles to WebVTT", "command": "gosavetool_subtitles_convert", "args": { "to": "vtt" } },
+    { "caption": "GoSaveTool: Subtitles to SRT", "command": "gosavetool_subtitles_convert", "args": { "to": "srt" } },
+    { "caption": "GoSaveTool: Shift Subtitles…", "command": "gosavetool_subtitles_shift" },
+    { "caption": "GoSaveTool: Repair Subtitles", "command": "gosavetool_subtitles_repair" },
+    { "caption": "Preferences: GoSaveTool Settings", "command": "edit_settings", "args": { "base_file": "${packages}/GoSaveTool/GoSaveTool.sublime-settings", "default": "{\n\t$0\n}\n" } }
+]
