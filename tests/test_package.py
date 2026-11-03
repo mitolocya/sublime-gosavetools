@@ -110,30 +110,26 @@ SRT = "1\n00:00:02,000 --> 00:00:01,000\nB\n\n2\n00:00:00,500 --> 00:00:01,500\n
 class Text(unittest.TestCase):
     """The checks of @gosavetool/text, against the Python port"""
 
-    def test_stats_and_limits(self):
+    def test_stats(self):
         self.assertEqual(txt.stats("Hello world. It’s 2026!"), {"words": 4, "chars": 23, "charsNoSpaces": 20, "lines": 1, "sentences": 2, "readSeconds": 1})
         st = txt.stats("Hello world. It’s 2026!\nSecond line.")
         self.assertEqual([st["words"], st["lines"], st["sentences"]], [6, 2, 3])
         self.assertEqual(txt.stats("")["lines"], 0)
         self.assertEqual(txt.stats("well-known co_op don't")["words"], 3)
         self.assertEqual(txt.stats(" ".join(["w"] * 119))["readSeconds"], 30)  # 29.99… rounds up
-        lim = txt.limits("x" * 300, ["x-post", "instagram-caption"])
-        self.assertEqual(lim["x-post"], {"limit": 280, "used": 300, "left": -20, "fits": False})
-        self.assertTrue(lim["instagram-caption"]["fits"])
-        self.assertEqual(len(txt.limits("a")), len(txt.LIMITS))
 
     def test_cases(self):
         self.assertEqual(txt.title("the lord of the rings: return of the king"), "The Lord of the Rings: Return of the King")
         self.assertEqual(txt.title("it's a dog's life"), "It's a Dog's Life")
         self.assertEqual(txt.sentence("HELLO WORLD. how ARE you?"), "Hello world. How are you?")
-        self.assertEqual(txt.slug("Ölçü Birimi & Çeviri!"), "olcu-birimi-ceviri")
-        self.assertEqual(txt.slug("Straße café"), "strasse-cafe")
-        self.assertEqual(txt.camel("best posting time"), "bestPostingTime")
-        self.assertEqual(txt.snake("bestPostingTime"), "best_posting_time")
-        self.assertEqual(txt.kebab("Best Posting_Time"), "best-posting-time")
         self.assertEqual(txt.words("HTMLParser v2Beta"), ["HTMLParser", "v2", "Beta"])
         self.assertEqual(txt.clean("a   b  \n\n\n\nc\t"), "a b\n\nc")
         self.assertEqual(txt.clean("a  \r\n\r\n\r\n\r\nb"), "a\r\n\r\nb")
+
+    def test_no_developer_or_seo_helpers(self):
+        """The package is subtitle and caption text only: no SEO limits, no identifier cases"""
+        for name in ("limits", "LIMITS", "slug", "camel", "snake", "kebab"):
+            self.assertFalse(hasattr(txt, name), name)
 
 
 class Commands(unittest.TestCase):
@@ -147,11 +143,19 @@ class Commands(unittest.TestCase):
         plugin.GosavetoolCaseCommand(v).run(None, op="__class__")
         self.assertEqual(v.text, "abc")
 
+    def test_removed_operations_do_nothing(self):
+        v = View("Best Posting Time", [(0, 17)])
+        for op in ("slug", "camel", "snake", "kebab"):
+            plugin.GosavetoolCaseCommand(v).run(None, op=op)
+            self.assertEqual(v.text, "Best Posting Time", op)
+            self.assertIn("unknown operation", sublime.messages[-1])
+
     def test_count_panel(self):
         v = View("Hello world. Again!")
         plugin.GosavetoolCountCommand(v).run(None)
         self.assertIn("Words: 3", v.win.panel.text)
-        self.assertIn("SEO title", v.win.panel.text)
+        self.assertIn("Reading time", v.win.panel.text)
+        self.assertNotIn("Character limits", v.win.panel.text)
         self.assertEqual(v.win.commands[-1], ("show_panel", {"panel": "output.gosavetool"}))
 
     def test_subtitles(self):
@@ -193,6 +197,12 @@ class Files(unittest.TestCase):
                 self.assertIn(cmd, names, f)
             for op in re.findall(r'"op": "(\w+)"', json.dumps(data)):
                 self.assertIn(op, plugin.CASE_OPS)
+
+    def test_menus_have_no_removed_labels(self):
+        for f in ("Default.sublime-commands", "Context.sublime-menu", "Main.sublime-menu"):
+            data = (ROOT / f).read_text("utf-8")
+            for word in ("slug", "camelCase", "snake_case", "kebab-case", "SEO", "Instagram"):
+                self.assertNotIn(word, data, f)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ Sadece GitHub hesabı gerekir (mevcut `mitolocya`). packagecontrol.io'da ayrı h
 
 ## 3. GitHub deposu ve sürüm etiketi
 
-1. https://github.com/new → `mitolocya/sublime-gosavetool`, Public, açıklama: aşağıdaki kısa açıklama, website: `https://www.gosavetool.com/`.
+1. https://github.com/new → `mitolocya/sublime-gosavetools`, Public, açıklama: aşağıdaki kısa açıklama, website: `https://www.gosavetool.com/`.
 2. Bu klasörün içeriğini kök dizine yükle (`.gitattributes` ve `.python-version` dahil; gizli dosyaları görmek için Windows Gezgini'nde "Gizli öğeler" açık olmalı).
 3. **Releases → Draft a new release** → Tag `1.0.0` (başında "v" olmadan; Package Control semver etiketleri okur) → **Publish release**.
 4. Topics: `sublime-text`, `sublime-package`, `subtitles`, `srt`, `webvtt`, `word-count`.
@@ -26,7 +26,7 @@ Sadece GitHub hesabı gerekir (mevcut `mitolocya`). packagecontrol.io'da ayrı h
 {
     "name": "GoSaveTool",
     "details": "https://github.com/mitolocya/sublime-gosavetools",
-    "labels": ["subtitles", "text manipulation", "formatting", "word count"],
+    "labels": ["subtitles", "captions", "srt", "webvtt"],
     "releases": [
         {
             "sublime_text": ">=4107",
@@ -36,7 +36,7 @@ Sadece GitHub hesabı gerekir (mevcut `mitolocya`). packagecontrol.io'da ayrı h
 }
 ```
 
-3. **Commit changes** → **Contribute → Open pull request**. Başlık: `Add GoSaveTool`. Açıklamada PR şablonundaki soruları yanıtla (paketin ne yaptığı, benzer paketlerden farkı: "SRT/WebVTT conversion, shift and repair plus word counter with social media limits in one package, no dependencies").
+3. **Commit changes** → **Contribute → Open pull request**. Başlık: `Add GoSaveTool`. Açıklamada PR şablonundaki soruları yanıtla (paketin ne yaptığı, benzer paketlerden farkı: "SRT/WebVTT conversion, shift and repair plus a word and character count, no dependencies").
 4. Otomatik kontrol (CI) yeşil olmalı; bakımcı inceleyip birleştirir (birkaç gün ile birkaç hafta). Birleşince **Install Package → GoSaveTool** ile kurulabilir ve https://packagecontrol.io/packages/GoSaveTool sayfası açılır.
 
 ## Listeleme metinleri
@@ -44,8 +44,8 @@ Sadece GitHub hesabı gerekir (mevcut `mitolocya`). packagecontrol.io'da ayrı h
 packagecontrol.io sayfası README.md ve GitHub depo açıklamasından oluşur.
 
 - **Ad:** GoSaveTool
-- **Kısa açıklama (GitHub "About"):** Convert SRT and WebVTT, shift and repair subtitles, live word count with social media limits, and case changes for Sublime Text.
-- **Etiketler (labels):** subtitles, text manipulation, formatting, word count
+- **Kısa açıklama (GitHub "About"):** Convert SRT and WebVTT, shift and repair subtitle timings, and change cue text case in Sublime Text.
+- **Etiketler (labels):** subtitles, captions, srt, webvtt
 - **Uzun açıklama:** README.md
 
 ## Sonraki sürümler

@@ -1,4 +1,4 @@
-"""GoSaveTool for Sublime Text: SRT and WebVTT subtitle tools, word counter with social media limits, case changes.
+"""GoSaveTool for Sublime Text: SRT and WebVTT subtitle tools, word and character counts, case changes for cue text.
 
 https://www.gosavetool.com/
 """
@@ -10,12 +10,7 @@ import sublime_plugin
 from .gosavetool_lib import subtitles as sub
 from .gosavetool_lib import text as txt
 
-CASE_OPS = ("title", "sentence", "upper", "lower", "slug", "camel", "snake", "kebab", "clean")
-NAMES = {
-    "x-post": "X post", "instagram-caption": "Instagram caption", "tiktok-caption": "TikTok caption",
-    "youtube-title": "YouTube title", "youtube-description": "YouTube description", "linkedin-post": "LinkedIn post",
-    "pinterest-description": "Pinterest description", "seo-title": "SEO title", "meta-description": "Meta description",
-}
+CASE_OPS = ("title", "sentence", "upper", "lower", "clean")
 # Live counts in the status bar stop above this size, to keep typing fast in big files
 LIVE_LIMIT = 2000000
 
@@ -30,7 +25,7 @@ def selected_or_whole(view):
     return regions or [whole(view)]
 
 
-def report(view, text):
+def report(text):
     st = txt.stats(text)
     lines = [
         "Words: {words:,}".format(**st),
@@ -38,16 +33,13 @@ def report(view, text):
         "Sentences: {sentences:,}   Lines: {lines:,}".format(**st),
         "Reading time: {} min {} s".format(st["readSeconds"] // 60, st["readSeconds"] % 60),
         "",
-        "Character limits:",
+        "Online counter: https://www.gosavetool.com/character-counter",
     ]
-    for key, lim in txt.limits(text).items():
-        lines.append("  {:<22} {:>5}  {}".format(NAMES[key], lim["limit"], "%d left" % lim["left"] if lim["fits"] else "%d over" % -lim["left"]))
-    lines += ["", "Online counter: https://www.gosavetool.com/character-counter"]
     return "\n".join(lines)
 
 
 class GosavetoolCaseCommand(sublime_plugin.TextCommand):
-    """Changes the case of each selection: title, sentence, upper, lower, slug, camel, snake, kebab or clean"""
+    """Changes the case of each selection: title, sentence, upper, lower or clean"""
 
     def run(self, edit, op="title"):
         if op not in CASE_OPS:
@@ -64,12 +56,12 @@ class GosavetoolCaseCommand(sublime_plugin.TextCommand):
 
 
 class GosavetoolCountCommand(sublime_plugin.TextCommand):
-    """Words, characters, reading time and social media limits of the selection or the file"""
+    """Words, characters, sentences, lines and reading time of the selection or the file"""
 
     def run(self, edit):
         text = "\n".join(self.view.substr(r) for r in selected_or_whole(self.view))
         panel = self.view.window().create_output_panel("gosavetool")
-        panel.run_command("append", {"characters": report(self.view, text)})
+        panel.run_command("append", {"characters": report(text)})
         self.view.window().run_command("show_panel", {"panel": "output.gosavetool"})
 
 

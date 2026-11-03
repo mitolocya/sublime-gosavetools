@@ -5,7 +5,7 @@
             {
                 "caption": "GoSaveTool",
                 "children": [
-                    { "caption": "Word Count and Limits", "command": "gosavetool_count" },
+                    { "caption": "Word Count", "command": "gosavetool_count" },
                     { "caption": "-" },
                     { "caption": "Subtitles to WebVTT", "command": "gosavetool_subtitles_convert", "args": { "to": "vtt" } },
                     { "caption": "Subtitles to SRT", "command": "gosavetool_subtitles_convert", "args": { "to": "srt" } },
@@ -16,7 +16,6 @@
                     { "caption": "Sentence case", "command": "gosavetool_case", "args": { "op": "sentence" } },
                     { "caption": "UPPERCASE", "command": "gosavetool_case", "args": { "op": "upper" } },
                     { "caption": "lowercase", "command": "gosavetool_case", "args": { "op": "lower" } },
-                    { "caption": "slug", "command": "gosavetool_case", "args": { "op": "slug" } },
                     { "caption": "Clean Spaces", "command": "gosavetool_case", "args": { "op": "clean" } },
                     { "caption": "-" },
                     { "caption": "GoSaveTool Online Tools", "command": "open_url", "args": { "url": "https://www.gosavetool.com/" } }

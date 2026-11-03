@@ -1,6 +1,6 @@
 # GoSaveTool for Sublime Text
 
-Subtitle and text tools for Sublime Text 4: convert **SRT ↔ WebVTT**, **shift** and **repair** subtitle timings, see a live **word count** in the status bar, check **social media and SEO character limits**, and change **text case** of any selection.
+Subtitle tools for Sublime Text 4: convert **SRT ↔ WebVTT**, **shift** and **repair** subtitle timings, change the **case** of cue text, clean up stray **spaces**, and see a live **word and character count** in the status bar while you translate or caption.
 
 Made by [GoSaveTool](https://www.gosavetool.com/), free online tools for creators.
 
@@ -10,17 +10,20 @@ Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type **GoSaveTool*
 
 | Command | What it does |
 | --- | --- |
-| Word Count and Limits | Words, characters, sentences, lines, reading time and the characters left for X, Instagram, TikTok, YouTube, LinkedIn, Pinterest, SEO title and meta description, for the selection or the file |
-| Title Case, Sentence case, UPPERCASE, lowercase | Changes every selection |
-| slug, camelCase, snake_case, kebab-case | `Ölçü Birimi` → `olcu-birimi`, `best posting time` → `bestPostingTime` |
-| Clean Spaces | Removes trailing spaces, runs of spaces and extra blank lines |
-| Subtitles to WebVTT / Subtitles to SRT | Opens the converted file in a new tab |
+| Subtitles to WebVTT / Subtitles to SRT | Opens the converted file in a new tab, cues and numbering included |
 | Shift Subtitles… | Moves every cue by the seconds you enter (`1.5` later, `-2` earlier) |
 | Repair Subtitles | Sorts cues, fixes overlaps and end times before the start, drops empty cues, renumbers |
+| Word Count | Words, characters, sentences, lines and reading time for the selection or the file |
+| Title Case, Sentence case, UPPERCASE, lowercase | Changes every selection — handy for cue text that arrived in the wrong case |
+| Clean Spaces | Removes trailing spaces, runs of spaces and extra blank lines |
 
 The status bar shows the word and character count of the selection, or of the file. Turn it off with `"status_bar_count": false` in **Preferences → Package Settings → GoSaveTool**.
 
-Everything runs inside Sublime Text, offline.
+Everything runs inside Sublime Text, offline, with no dependencies.
+
+## What this package is not
+
+It is deliberately limited to subtitles and caption text. It does not count characters against social media or SEO limits, and it does not convert text to `slug`, `camelCase`, `snake_case` or `kebab-case` — those live in the web tools at [gosavetool.com](https://www.gosavetool.com/) instead, so this package stays out of the way of the packages that do those jobs properly.
 
 ## Key bindings
 
@@ -41,7 +44,7 @@ Package Control: **Install Package → GoSaveTool**. Manually: copy this folder 
 python -m unittest discover -s tests
 ```
 
-The tests run without Sublime Text, against small stand-ins for its API. `gosavetool_lib/text.py` gives the same results as [`@gosavetool/text`](https://www.npmjs.com/package/@gosavetool/text) and `gosavetool_lib/subtitles.py` is [`gosavetool-subtitles`](https://pypi.org/project/gosavetool-subtitles/).
+The tests run without Sublime Text, against small stand-ins for its API. `gosavetool_lib/subtitles.py` is [`gosavetool-subtitles`](https://pypi.org/project/gosavetool-subtitles/) from PyPI.
 
 ## Online tools
 

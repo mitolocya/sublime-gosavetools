@@ -1,26 +1,12 @@
-"""Word, character and reading-time counts, case changes, URL slugs and whitespace cleanup. No dependencies.
+"""Word, character and reading-time counts, case changes and whitespace cleanup for subtitle text. No dependencies.
 
 The Python version of @gosavetool/text: https://www.gosavetool.com/character-counter
 """
 import re
-import unicodedata
 
-__all__ = ["LIMITS", "stats", "limits", "words", "upper", "lower", "title", "sentence", "slug", "camel", "snake", "kebab", "clean"]
+__all__ = ["stats", "words", "upper", "lower", "title", "sentence", "clean"]
 
 SMALL = {"a", "an", "and", "as", "at", "but", "by", "for", "in", "nor", "of", "on", "or", "so", "the", "to", "up", "yet", "via", "vs"}
-
-# Character limits of common fields; SEO values are the length search results show before cutting
-LIMITS = {
-    "x-post": 280,
-    "instagram-caption": 2200,
-    "tiktok-caption": 4000,
-    "youtube-title": 100,
-    "youtube-description": 5000,
-    "linkedin-post": 3000,
-    "pinterest-description": 500,
-    "seo-title": 60,
-    "meta-description": 160,
-}
 
 # A letter or digit, then letters, digits, apostrophes, underscores or hyphens (counted words)
 _WORD = re.compile(r"[^\W_][\w'’-]*")
@@ -41,12 +27,6 @@ def stats(s):
         # Half up, as JavaScript's Math.round
         "readSeconds": int(words_ / 238 * 60 + 0.5),
     }
-
-
-def limits(s, only=None):
-    """How each limit is met: {'x-post': {'limit': 280, 'used': 120, 'left': 160, 'fits': True}, ...}"""
-    used = len(s)
-    return {k: {"limit": n, "used": used, "left": n - used, "fits": used <= n} for k, n in LIMITS.items() if not only or k in only}
 
 
 def words(s):
@@ -80,29 +60,6 @@ def title(s):
 def sentence(s):
     """'HELLO WORLD. how ARE you?' -> 'Hello world. How are you?'"""
     return re.sub(r"(^\s*|[.!?…]\s+)([^\W\d_])", lambda m: m.group(1) + m.group(2).upper(), s.lower())
-
-
-_SLUG_MAP = {"ı": "i", "İ": "i", "ş": "s", "Ş": "s", "ğ": "g", "Ğ": "g", "ç": "c", "Ç": "c", "ö": "o", "Ö": "o",
-             "ü": "u", "Ü": "u", "ß": "ss", "æ": "ae", "ø": "o", "đ": "d", "ł": "l"}
-
-
-def slug(s):
-    """'Ölçü Birimi & Çeviri!' -> 'olcu-birimi-ceviri'"""
-    s = "".join(_SLUG_MAP.get(c, c) for c in s)
-    s = re.sub(r"[̀-ͯ]", "", unicodedata.normalize("NFKD", s)).lower()
-    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
-
-
-def camel(s):
-    return "".join(w.lower() if i == 0 else w[0].upper() + w[1:].lower() for i, w in enumerate(words(s)))
-
-
-def snake(s):
-    return "_".join(w.lower() for w in words(s))
-
-
-def kebab(s):
-    return "-".join(w.lower() for w in words(s))
 
 
 def clean(s):

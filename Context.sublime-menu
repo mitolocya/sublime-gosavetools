@@ -6,14 +6,9 @@
             { "caption": "Sentence case", "command": "gosavetool_case", "args": { "op": "sentence" } },
             { "caption": "UPPERCASE", "command": "gosavetool_case", "args": { "op": "upper" } },
             { "caption": "lowercase", "command": "gosavetool_case", "args": { "op": "lower" } },
-            { "caption": "-" },
-            { "caption": "slug", "command": "gosavetool_case", "args": { "op": "slug" } },
-            { "caption": "camelCase", "command": "gosavetool_case", "args": { "op": "camel" } },
-            { "caption": "snake_case", "command": "gosavetool_case", "args": { "op": "snake" } },
-            { "caption": "kebab-case", "command": "gosavetool_case", "args": { "op": "kebab" } },
             { "caption": "Clean Spaces", "command": "gosavetool_case", "args": { "op": "clean" } },
             { "caption": "-" },
-            { "caption": "Word Count and Limits", "command": "gosavetool_count" }
+            { "caption": "Word Count", "command": "gosavetool_count" }
         ]
     }
 ]
